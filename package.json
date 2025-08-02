@@ -1,0 +1,27 @@
+{
+    "name": "php-double-dollar-detection-vscode",
+    "version": "0.0.0",
+    "description": "PHP Double Dollar Detection VSCode Extension",
+    "main": "extension.js",
+    "scripts": {
+        "start": "node extension.js",
+        "dev": "node extension.js"
+    },
+    "author": "John Doe",
+    "license": "ISC",
+    "engines": {
+        "vscode": "^1.102.2"
+    },
+    "contributes": {
+        "commands": [
+            {
+                "command": "php-double-dollar.hello",
+                "title": "PHP: Hello"
+            },
+            {
+                "command": "php-double-dollar.check",
+                "title": "PHP: 检查$$符号"
+            }
+        ]
+    }
+}

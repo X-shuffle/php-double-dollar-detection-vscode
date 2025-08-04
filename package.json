@@ -1,7 +1,9 @@
 {
     "name": "php-double-dollar-detection-vscode",
+    "displayName": "PHP Double Dollar Detection",
     "version": "0.0.0",
     "description": "PHP Double Dollar Detection VSCode Extension",
+    "publisher": "x-shuffle",
     "main": "extension.js",
     "scripts": {
         "start": "node extension.js",

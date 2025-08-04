@@ -4,6 +4,7 @@
     "version": "0.0.0",
     "description": "PHP Double Dollar Detection VSCode Extension",
     "publisher": "x-shuffle",
+    "icon": "images/icon.ico",
     "main": "extension.js",
     "scripts": {
         "start": "node extension.js",

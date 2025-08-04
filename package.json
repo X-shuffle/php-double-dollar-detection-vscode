@@ -7,11 +7,20 @@
         "start": "node extension.js",
         "dev": "node extension.js"
     },
-    "author": "John Doe",
+    "author": "X-shuffle",
     "license": "ISC",
+    "repository": {
+        "type": "git",
+        "url": "https://github.com/X-shuffle/php-double-dollar-detection-vscode.git"
+    },
     "engines": {
         "vscode": "^1.102.2"
     },
+    "activationEvents": [
+        "onLanguage:php",
+        "onCommand:php-double-dollar.hello",
+        "onCommand:php-double-dollar.check"
+    ],
     "contributes": {
         "commands": [
             {

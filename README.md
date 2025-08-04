@@ -166,9 +166,9 @@ A: 扩展已优化性能，对于大文件可能需要几秒钟时间。
 
 ## 👨‍💻 作者
 
-**John Doe**
+**X-shuffle**
 
-- GitHub: [@yourusername](https://github.com/yourusername)
+- GitHub: [@X-shuffle](https://github.com/X-shuffle)
 
 ## 🙏 致谢
 

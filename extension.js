@@ -11,6 +11,9 @@ const CONSTANTS = {
 // 缓存已检测过的文件，避免重复检测
 const checkedFiles = new Set();
 
+// 跟踪被编辑过的文件，只有被编辑过的文件才需要重新检测
+const editedFiles = new Set();
+
 // 创建诊断集合用于显示连续美元符号问题
 const diagnosticCollection = vscode.languages.createDiagnosticCollection('php-double-dollar');
 
@@ -63,15 +66,15 @@ function activate(context) {
     });
     context.subscriptions.push(checkDoubleDollarDisposable);
     
-    // 监听文件切换事件，当切换到PHP文件时自动检查连续美元符号
+    // 监听文件切换事件，当切换到PHP文件且文件被编辑过时自动检查连续美元符号
     const changeActiveEditorListener = vscode.window.onDidChangeActiveTextEditor((editor) => {
         if (!editor) return;
         
         const fileName = editor.document.fileName;
         if (!isPhpFile(fileName)) return;
         
-        // 检查是否已经检测过这个文件
-        if (!checkedFiles.has(fileName)) {
+        // 只有当文件被编辑过且还没有检测过时才进行检查
+        if (editedFiles.has(fileName) && !checkedFiles.has(fileName)) {
             // 使用防抖机制，避免频繁检测
             if (debounceTimer) {
                 clearTimeout(debounceTimer);
@@ -80,17 +83,21 @@ function activate(context) {
                 checkForDoubleDollar(true); // 使用静默模式
                 // 标记文件已检测
                 checkedFiles.add(fileName);
+                // 从编辑列表中移除，避免重复检测
+                editedFiles.delete(fileName);
                 debounceTimer = null;
             }, CONSTANTS.DEBOUNCE_DELAY);
         }
     });
     context.subscriptions.push(changeActiveEditorListener);
     
-    // 监听文件内容变化，当PHP文件被修改时清除缓存
+    // 监听文件内容变化，当PHP文件被修改时标记为已编辑
     const changeDocumentListener = vscode.workspace.onDidChangeTextDocument((event) => {
         const fileName = event.document.fileName;
         if (isPhpFile(fileName)) {
-            // 当文件内容变化时，从缓存中移除，允许重新检测
+            // 当文件内容变化时，标记为已编辑
+            editedFiles.add(fileName);
+            // 从缓存中移除，允许重新检测
             checkedFiles.delete(fileName);
             // 清除该文件的诊断信息
             clearDiagnostics(event.document.uri);
